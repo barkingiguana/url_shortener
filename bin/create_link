@@ -1,0 +1,11 @@
+#! /usr/bin/env ruby
+
+$:.unshift File.expand_path '../../lib', __FILE__
+require 'barking_iguana/url_shortener'
+
+include BarkingIguana::UrlShortener::Client
+c = Client.new ENV['VERIFY_PUBLIC_KEY'], ENV['VERIFY_SECRET']
+ARGV.each do |target|
+  short_url = c.add target
+  puts "#{short_url} => #{target}"
+end
