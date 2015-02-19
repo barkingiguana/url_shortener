@@ -18,7 +18,7 @@ module BarkingIguana
             jitter = BaseN::Number.new(rand(1_000_000).to_s, 10).rebase(58).to_s
             code = "#{now}#{jitter}"
             intent = BarkingIguana::Verify::SignableAction.new 'PUT', "/#{code}", target: target
-            action = intent.sign SECRETS,keys[0], SECRETS.values[0], Time.now + 120
+            action = intent.sign SECRETS.keys[0], SECRETS.values[0], Time.now + 120
             r = RestClient.put "http://127.0.0.1:9292#{action.signed_path.path}", action.signed_path.query_values
             return r.headers[:location] if r.code == 201
           end
